@@ -1,0 +1,40 @@
+#INSTRUCCIONES DE USO
+
+###########################COMUNICACION DESDE ST7540 A PI#############################
+EJECUTAR:
+sudo ./nat_bridge_in.py PRIVATE_ADDRESS PAYDATA
+EJEMPLO MEDIDAS: 
+	private_address "0x0E"
+	#TYPE = 01 , TIME = 031B, LOCAL_ID = 01, DATA = 08 (MEAS_AMNT) + 0174 5283 1111 03AC E4F2 04B1 94A1 8511 (MEAS)
+	sudo ./nat_bridge_in.py 0E 01031B010801745283111103ACE4F204B194A18511
+
+EJEMPLO CONFIGURACION:
+	private_address "0x37"
+	#TYPE = 07, DATA = 05 (IO_QTTY) + 0000 (LOCAL_ID 0, TIPO 1) 0100 (LOCAL_ID 1, TIPO 3) + 0201 (LOCAL_ID 2, TIPO 1) + 0302 (LOCAL_ID 3, TIPO 2) + 0401(LOCAL_ID 4, TIPO 1)
+	sudo ./nat_bridge_in.py 37 070500010103020103020401
+###########################ENVIO DESDE ST7540 A PI#############################
+
+
+
+###########################COMUNICACION DESDE PI A ST7540############################
+Tanto en el polling cron como en las directivas que se envian manualmente, se ejecuta el script nat_bridge_out.py
+Construir el frame a enviar con los int/bytes de la variable frame_array del script y escribir por serial al arduino
+###########################ENVIO DESDE PI A ST7540############################
+
+
+
+
+###########################ENVIO DIRECTIVAS DESDE PI A NODOS############################
+
+###########################ENVIO DIRECTIVAS DESDE PI A NODOS############################
+
+
+
+
+###########################COMUNICACION DESDE QCA7000 A PI############################
+Enviar protocolo de comuniacion / UDP PUERTO 40000 / IP del centralizador / ETH del modem
+###########################ENVIO DESDE QCA7000 A PI############################
+
+###########################COMUNICACION DESDE PI A QCA7000############################
+Recibir protocolo de comuniacion / UDP PUERTO 40001 / IP del nodo / ETH del modem
+###########################ENVIO DESDE PI A QCA7000############################

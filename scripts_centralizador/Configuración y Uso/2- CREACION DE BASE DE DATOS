@@ -1,0 +1,116 @@
+
+CREATE DATABASE tesis;
+CREATE DATABASE analytics;
+CREATE USER 'tesis' IDENTIFIED BY 'tesis';
+GRANT ALL ON tesis.* TO 'tesis';
+GRANT ALL ON analytics.* TO 'tesis';
+
+USE tesis;
+
+CREATE TABLE network
+(
+id_network int(11) NOT NULL AUTO_INCREMENT,
+modem enum('ST7540','QCA7000'),
+ip_prefix enum('fe80::','fe90::'),
+PRIMARY KEY (id_network)
+);
+
+
+CREATE TABLE node
+(
+id_node int(11) NOT NULL AUTO_INCREMENT,
+node_ip varchar(40) NOT NULL UNIQUE, 
+modem enum('ST7540','QCA7000'),
+active tinyint(2) DEFAULT '1',
+description varchar(40) DEFAULT '',
+id_network int(11) NOT NULL,
+FOREIGN KEY (id_network) REFERENCES network(id_network), 
+PRIMARY KEY (id_node)
+);
+
+
+CREATE TABLE io_type 
+( 
+id_io int(11) NOT NULL AUTO_INCREMENT,
+io_number int(11) NOT NULL, 
+description varchar(40), 
+type enum('temperature', 'relay', 'current'), 
+sampling_period double(3,1),
+io_type enum('I','O'),
+a_conversion_factor decimal(10,5) DEFAULT 1.00000,
+b_conversion_factor decimal(10,5) DEFAULT 0.00000,
+PRIMARY KEY (id_io)  
+);
+
+
+CREATE TABLE node_local_device 
+(
+id_node_device int NOT NULL AUTO_INCREMENT, 
+id_node int(11) NOT NULL,
+id_local int(11) NOT NULL,
+id_io int(11) NOT NULL,
+description varchar(40) DEFAULT '',
+factor_potencia decimal(5,3) DEFAULT 1.000,  
+PRIMARY KEY (id_node_device),
+FOREIGN KEY (id_node) REFERENCES node(id_node),
+FOREIGN KEY (id_io) REFERENCES io_type(id_io)
+);
+
+
+CREATE TABLE measure
+(
+id_measure int NOT NULL AUTO_INCREMENT,
+value int(20) NOT NULL,
+time timestamp DEFAULT now(),
+id_node_device int NOT NULL,
+tension int DEFAULT 230 NOT NULL,
+PRIMARY KEY (id_measure),
+FOREIGN KEY (id_node_device) REFERENCES node_local_device(id_node_device) 
+);
+
+
+CREATE TABLE nat
+(
+id_nat int NOT NULL AUTO_INCREMENT,
+id_node int(11) NOT NULL,
+private_address int(8) NOT NULL CHECK (private_address>0 AND private_address<255),
+id_network int(11),
+PRIMARY KEY (id_nat),
+FOREIGN KEY (id_node) REFERENCES node(id_node),
+FOREIGN KEY (id_network) REFERENCES network(id_network)
+);
+
+
+CREATE TABLE clk_reset
+(
+id_clk_reset int(11) NOT NULL AUTO_INCREMENT,
+id_network int(11),
+timestamp_sent  datetime,
+PRIMARY KEY (id_clk_reset),
+FOREIGN KEY (id_network) REFERENCES network(id_network)
+);
+
+
+CREATE TABLE directive
+(
+id_directive int(11) NOT NULL AUTO_INCREMENT,
+id_node_device int(11),
+type int(11),
+timestamp datetime,
+PRIMARY KEY (id_directive),
+FOREIGN KEY (id_node_device) REFERENCES node_local_device(id_node_device)
+);
+
+
+
+USE analytics;
+
+CREATE TABLE energy
+(
+id_node int, 
+node_description varchar(40) DEFAULT '',
+id_local int, 
+local_description varchar(40) DEFAULT '', 
+time timestamp, 
+energy_value decimal(6,3) NOT NULL
+);

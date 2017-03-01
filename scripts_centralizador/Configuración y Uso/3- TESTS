@@ -1,0 +1,20 @@
+
+EJECUTAR LAS QUERIES DE 4- MYSQL TEST QUERIES
+
+
+#Medidas desde el nodo ST7540 con direccion 0E
+sudo ./nat_bridge_in.py 0E 01031B010801745283111103ACE4F204B194A18511
+#Medidas desde el nodo ST7540 con direccion 1B
+sudo ./nat_bridge_in.py 1B 01021B000625361111E4F2114C94A18511
+#Configuracion desde el nodo ST7540 con direccion 37
+sudo ./nat_bridge_in.py 37 070500010103020103020401
+
+
+#Nodo QCA7000 nuevo que envia su conf y a la vez se reconoce.
+Ejecutar sudo python udp_ipv6_client.py
+
+
+#Envia directiva a un nodo cualquiera
+sudo ./directive_api_client.py id_node id_local directiva
+Ejemplo: sudo ./directive_api_client.py 1 2 1
+

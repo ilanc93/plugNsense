@@ -1,0 +1,67 @@
+#INSTRUCCIONES DE CONFIGURACION
+
+#######CONFIGURAR INTERFAZ TUN###########
+#( LO MISMO QUE HAY EN tun.sh)
+sudo ip tuntap add name tun0 mode tun
+sudo ip addr add fe90::0001/64 dev tun0
+sudo ip link set dev tun0 up
+sudo sysctl -w net.ipv6.conf.all.forwarding=1
+sudo ip -6 route add fe90::/64 dev tun0
+#######CONFIGURAR INTERFAZ TUN###########
+
+
+#######INSTALAR PAQUETE PARA MANEJO DE TUNTAP######
+https://github.com/montag451/pytun
+sudo apt-get install python-dev
+sudo apt-get install build-essential
+install module: sudo python setup.py install
+#######INSTALAR PAQUETE PARA MANEJO DE TUNTAP######
+
+
+#######INSTALAR SCAPY######
+wget scapy.net
+unzip scapy-latest.zip
+sudo python setup.py install
+#######INSTALAR SCAPY######
+
+
+##########INSTALAR Y CONFIGURAR MYSQL###################
+sudo apt-get install mysql-server
+User root
+Pass tesis
+sudo mysql_install_db
+
+sudo service mysql start
+sudo service mysql status
+
+sudo apt-get install mysql.connector
+#Conectarse para crear modelo#
+mysql -u root -p
+pass: tesisPLC2016
+EJECUTAR QUERIES DE ARCHIVO: CREACION DE BASAE DE DATOS
+##########INSTALAR Y CONFIGURAR MYSQL###################
+
+
+##############GUARDAR SCRIPTS Y EJECUTAR SERVIDORES################
+Guardar carpeta de scripts
+sudo chmod -R a+rwx /PATH/TO/SCRIPTS/FOLDER
+sudo python3 /PATH/TO/SCRIPTS/FOLDER/udp_ipv6_server_40000.py
+sudo python3 /PATH/TO/SCRIPTS/FOLDER/udp_ipv6_server_40001.py
+sudo python /PATH/TO/SCRIPTS/FOLDER/tun_server.py
+##############GUARDAR SCRIPTS Y EJECUTAR SERVIDORES################
+
+
+############CONFIGURAR CRON DE POLLING###########
+sudo crontab -e
+@reboot sudo radvd
+@reboot cd /PATH/TO/SCRIPTS/FOLDER/reboot && sudo ./tun.sh
+@reboot sudo python3 /PATH/TO/SCRIPTS/FOLDER/udp_ipv6_server_40000.py
+@reboot python3 /PATH/TO/SCRIPTS/FOLDER/udp_ipv6_server_40001.py
+@reboot python /PATH/TO/SCRIPTS/FOLDER/tun_server.py
+* * * * * cd /PATH/TO/SCRIPTS/FOLDER/ && ./polling_cron.py
+*/10 * * * * cd /PATH/TO/SCRIPTS/FOLDER/ && ./analytics_cron.py
+############CONFIGURAR CRON DE POLLING###########
+
+
+
+

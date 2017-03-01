@@ -1,0 +1,37 @@
+
+############# QUERIES DE CONFIGURACION #############
+INSERT INTO network VALUES (NULL,'ST7540','fe90::');
+INSERT INTO network VALUES (NULL, 'QCA7000','fe80::');
+
+INSERT INTO clk_reset VALUES (NULL, 1, now());
+
+INSERT INTO io_type VALUES (NULL, 1, 'Current 1', 'current', 4.0, 'I', DEFAULT, DEFAULT);
+INSERT INTO io_type VALUES (NULL, 2, 'Current 2', 'current', 4.0, 'I', DEFAULT, DEFAULT);
+INSERT INTO io_type VALUES (NULL, 3, 'Relay 1', 'relay', NULL, 'O', DEFAULT, DEFAULT);
+############# QUERIES DE CONFIGURACION #############
+
+
+############# QUERIES DE TEST #############
+INSERT INTO node VALUES (NULL, 'fe90::2','ST7540',1, 'HELADERA', 1); #node 1
+INSERT INTO node VALUES (NULL, 'fe90::3','ST7540',1, 'CALEFON GRANDE', 1); #node 2
+INSERT INTO node VALUES (NULL, 'fe90::4','ST7540',1, 'TELEVISOR SONY', 1); #node 3
+INSERT INTO node VALUES (NULL, 'fe90::5','ST7540',1, 'LAVARROPAS', 1); #node 4
+INSERT INTO node VALUES (NULL, 'fe80::2','QCA7000',1, 'AIRE ACONDICIONADO', 2); #node 5
+INSERT INTO node VALUES (NULL, 'fe80::3','QCA7000',1, 'ALARMA', 2); #node 6
+
+INSERT INTO node_local_device VALUES (NULL, 1, 0, 1, 'Corriente heladera', DEFAULT);
+INSERT INTO node_local_device VALUES (NULL, 1, 1, 1, 'Corriente motor refrigerador', NULL);
+INSERT INTO node_local_device VALUES (NULL, 1, 2, 3, 'Interruptor heladera', DEFAULT);
+INSERT INTO node_local_device VALUES (NULL, 2, 0, 1, 'Corriente calefon', DEFAULT);
+INSERT INTO node_local_device VALUES (NULL, 2, 1, 2, 'Corriente bombita calefon', NULL);
+INSERT INTO node_local_device VALUES (NULL, 2, 2, 3, 'Interruptor calefon', DEFAULT);
+INSERT INTO node_local_device VALUES (NULL, 5, 0, 1, 'Corriente aire acondicionado', NULL);
+INSERT INTO node_local_device VALUES (NULL, 5, 1, 3, 'Interruptor aire acondicionado', DEFAULT);
+#Node 3,4 and 6 not configured
+
+INSERT INTO nat VALUES (NULL, 1, 14, 1); #0E
+INSERT INTO nat VALUES (NULL, 2, 27, 1); #1B
+INSERT INTO nat VALUES (NULL, 3, 55, 1); #37
+INSERT INTO nat VALUES (NULL, 4, 101, 1); #65
+
+############# QUERIES DE TEST #############
