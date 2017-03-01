@@ -1,2 +1,2 @@
-# plugNsense
-Plug N' Sense, Red domótica sobre PowerLine
+# Plug N' Sense
+Red domótica sobre PowerLine
